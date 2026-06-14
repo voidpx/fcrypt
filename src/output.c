@@ -36,7 +36,7 @@ static void clear(struct out_man *om) {
 	}
 }
 
-static void __do_out(struct out_man *o, char *oob, va_list arg) {
+static void __do_out(struct out_man *o, char *oob, va_list *arg) {
 	if (!o->outf) {
 		return;
 	}
@@ -45,7 +45,7 @@ static void __do_out(struct out_man *o, char *oob, va_list arg) {
 
 	// oob
 	if (oob) {
-		vfprintf(o->outf, oob, arg);
+		vfprintf(o->outf, oob, *arg);
 	}
 
 	list *e = NULL;
@@ -129,6 +129,6 @@ void destroy_out_man(struct out_man *om) {
 void oob_out(struct out_man *om, char* s,...) {
 	va_list arg;
 	va_start(arg, s);
-	__do_out(om, s, arg);
+	__do_out(om, s, &arg);
 	va_end(arg);
 }
